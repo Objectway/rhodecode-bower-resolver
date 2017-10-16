@@ -39,11 +39,10 @@ function parseTag(output) {
             console.log(`PARSE_TAG METHOD :: Parsing ${line} :: Parsed -> ${parsed}`);
             let [match, version, target] = parsed;
             console.log(`PARSE_TAG METHOD :: Returning version ${match} and target ${match.substring(1, match.length)}`);
-            return { target: match, version: match.substring(1, match.length)};
-            // if (semver.parse(version)) {
-            //     console.log(`PARSE_TAG METHOD :: Parsing ${line} :: Parsed Version -> ${version} with target ${target}`);
-            //     return { version, target: match };
-            // }
+            if (semver.parse(version)) {
+                console.log(`PARSE_TAG METHOD :: Parsing ${line} :: Parsed Version -> ${version} with target ${target}`);
+                return { target: match, version: match.substring(1, match.length)};
+            }
         }
     });
 }

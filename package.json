@@ -26,10 +26,14 @@
   },
   "homepage": "https://github.com/phenomnomnominal/mercurial-bower-resolver#readme",
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "bluebird": "2.9.34",
     "bower-registry-client": "^1.0.0",
+    "file-type": "^7.1.0",
     "q": "^1.5.0",
+    "read-chunk": "^2.1.0",
     "semver": "5.0.1",
+    "spawn-command": "0.0.2-1",
     "tmp": "0.0.27"
   },
   "devDependencies": {

@@ -33,3 +33,6 @@ Then add a reference to a hg repo in your bower.json:
 # Known issues:
 
 * Will not resolve tags/branches that look like semver ranges (but aren't actually, like 1234 or 1.0). This is due to how Bower decides whether to check the versions. Not actually sure how to deal with this!
+
+# rhodecode-bower-resolver
+

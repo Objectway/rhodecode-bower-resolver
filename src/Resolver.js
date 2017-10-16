@@ -117,7 +117,7 @@ export default class Resolver {
         // console.log(`Starting RELEASES method for -> ${source} ...`);
         // return mercurial.clone(source, this.directory)
         //     .catch( (e) => {
-        //         console.log(`Pacho error ${e}`);
+        //         console.log(`Custom error ${e}`);
         //     })
         //     .then((directory) => {
         //         console.log(`RELEASES method :: resolved promise for -> ${directory} ...`);
@@ -125,12 +125,12 @@ export default class Resolver {
         //
         //         let branches = mercurial.branches(directory.name)
         //             .catch( (e) => {
-        //                 console.log(`Pacho error su BRANCHES ${e}`);
+        //                 console.log(`Custom error su BRANCHES ${e}`);
         //             })
         //
         //         let tags = mercurial.tags(directory.name)
         //             .catch( (e) => {
-        //                 console.log(`Pacho error su TAGS ${e}`);
+        //                 console.log(`Custom error su TAGS ${e}`);
         //             })
         //
         //         return Promise.all([branches, tags]);

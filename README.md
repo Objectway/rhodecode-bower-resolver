@@ -1,33 +1,33 @@
-# mercurial-bower-resolver v0.1.3
-A Mercurial resolver for Bower
+# rhodecode-bower-resolver v0.1.3
+A git Rhodecode resolver for Bower
 
 # Requirements:
-* You will need a working version of `mercurial` installed on your machine. `brew install mercurial`, `apt-get install mercurial`, etc.
+* You will need a working version of `rhodecode` installed on your machine. 
 
 # Usage:
 
-Include `"mercurial-bower-resolver"` in your .bowerrc:
+Include `"rhodecode-bower-resolver"` in your .bowerrc:
 
     {
       "resolvers": [
-        "mercurial-bower-resolver"
+        "rhodecode-bower-resolver"
       ]
     }
 
 Then add a reference to a hg repo in your bower.json:
 
     "dependencies": {
-        "repo": "hg+http://mysite.org/some/repo"
+        "repo": "git+http://mysite.org/some/repo"
     }
 
 
 # Tags/Branches/Revisions:
 
     "dependencies": {
-        "some-branch": "hg+http://mysite.org/some/repo#some-branch",
-        "some-tag": "hg+http://mysite.org/some/other/repo#some-tag",
-        "some-sem-ver-tag": "hg+http://mysite.org/some/other/repo#1.2.3",
-        "some-revision":  "hg+http://mysite.org/some/other/repo#432fbee7ecb6"
+        "some-branch": "git+http://mysite.org/some/repo#some-branch",
+        "some-tag": "git+http://mysite.org/some/other/repo#some-tag",
+        "some-sem-ver-tag": "git+http://mysite.org/some/other/repo#1.2.3",
+        "some-revision":  "git+http://mysite.org/some/other/repo#432fbee7ecb6"
     }
 
 # Known issues:

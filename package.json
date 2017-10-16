@@ -27,6 +27,8 @@
   "homepage": "https://github.com/phenomnomnominal/mercurial-bower-resolver#readme",
   "dependencies": {
     "bluebird": "2.9.34",
+    "bower-registry-client": "^1.0.0",
+    "q": "^1.5.0",
     "semver": "5.0.1",
     "tmp": "0.0.27"
   },

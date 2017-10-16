@@ -2,15 +2,15 @@
 
 // Constants:
 const ALPHA_NUMERIC_REVISION_REGEX = /^[a-f0-9]{4,40}$/;
-const BRANCHES = 'branches';
+const BRANCHES = 'branch';
 const CLONE = 'clone';
-const HG = 'hg';
-const HG_REGEX = /^hg\+/i;
+const HG = 'git';
+const HG_REGEX = /^git\+/i;
 const NUMERIC_REVISION_REGEX = /^\d+$/;
 const REVISION_FLAG = '-r';
-const TAGS = 'tags';
+const TAGS = 'tag';
 const TRAILING_SLASHES = /\/+$/;
-const UPDATE = 'up';
+const UPDATE = 'checkout';
 
 // Dependencies:
 import child_process from 'child_process';
@@ -24,13 +24,17 @@ export default {
     update
 };
 
+var mSource, mDirectory;
+
 function clone (source, directory) {
+    mSource = source;
+    mDirectory = directory;
+    //source = `http://hermes.objectway.it/DigitalWealthXGroup/DigitalWealthXFrontEndGroup/${source}`;
     directory = directory || tmp.dirSync();
     return run({
         command: CLONE,
         args: [cleanSource(source), directory.name]
-    })
-    .then(() => directory);
+    });
 }
 
 function branches (directoryName) {
@@ -76,6 +80,7 @@ function run (options) {
     let cwd = options.cwd || process.cwd();
 
     return new Promise((resolve, reject) => {
+        console.log(`Executing... ${HG} ${[command].concat(args)} from ${cwd}`);
         let hg = child_process.spawn(HG, [command].concat(args), { cwd });
 
         let stdout = '';

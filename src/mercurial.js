@@ -1,13 +1,10 @@
 'use strict';
 
 // Constants:
-const ALPHA_NUMERIC_REVISION_REGEX = /^[a-f0-9]{4,40}$/;
 const BRANCHES = 'branch';
 const CLONE = 'clone';
 const HG = 'git';
 const HG_REGEX = /^git\+/i;
-const NUMERIC_REVISION_REGEX = /^\d+$/;
-const REVISION_FLAG = '-r';
 const TAGS = 'tag';
 const TRAILING_SLASHES = /\/+$/;
 const UPDATE = 'checkout';
@@ -24,12 +21,9 @@ export default {
     update
 };
 
-var mSource, mDirectory;
-
 function clone (source, directory) {
-    mSource = source;
-    mDirectory = directory;
-    //source = `http://hermes.objectway.it/DigitalWealthXGroup/DigitalWealthXFrontEndGroup/${source}`;
+    source = source.replace('http://hermes.objectway.it', 'http://hermes2.objectway.it:10003/');
+    console.log(`CLONE ${source}`)
     directory = directory || tmp.dirSync();
     return run({
         command: CLONE,
@@ -45,6 +39,7 @@ function branches (directoryName) {
 }
 
 function tags (directoryName) {
+    //console.log(`Requiring tags for... ${directoryName}`);
     return run({
         command: TAGS,
         cwd: directoryName,
@@ -52,16 +47,9 @@ function tags (directoryName) {
 }
 
 function update (endpoint, directoryName) {
-    let { target } = endpoint;
-    let flags = [];
-
-    if (NUMERIC_REVISION_REGEX.test(target) || ALPHA_NUMERIC_REVISION_REGEX.test(target)) {
-        flags.push(REVISION_FLAG);
-    }
-
     return run({
         command: UPDATE,
-        args: flags.concat([endpoint.target]),
+        args: [endpoint.target],
         cwd: directoryName
     });
 }

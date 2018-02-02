@@ -9,10 +9,10 @@ let { expect } = chai;
 chai.use(sinonChai);
 
 // Under test:
-import mercurial from './mercurial';
+import git from './git';
 
-describe('mercurial:', () => {
-    describe('mercurial.clone:', () => {
+describe('git:', () => {
+    describe('git.clone:', () => {
         it('should clean up the given URL', () => {
             const child_process = require('child_process');
             const EventEmitter = require('events').EventEmitter;
@@ -26,7 +26,7 @@ describe('mercurial:', () => {
 
             sinon.stub(child_process, 'spawn').returns(hg);
 
-            let clone = mercurial.clone('hg+https://source/', directory)
+            let clone = git.clone('hg+https://source/', directory)
             .then(() => {
                 expect(child_process.spawn).to.have.been.calledWith('hg', ['clone', 'https://source', 'directory']);
 
@@ -53,7 +53,7 @@ describe('mercurial:', () => {
             sinon.stub(tmp, 'dirSync');
             sinon.stub(child_process, 'spawn').returns(hg);
 
-            let clone = mercurial.clone('http://source', directory)
+            let clone = git.clone('http://source', directory)
             .then((directory) => {
                 expect(tmp.dirSync).to.not.have.been.called;
                 expect(child_process.spawn).to.have.been.calledWith('hg', ['clone', 'http://source', 'directory']);
@@ -83,7 +83,7 @@ describe('mercurial:', () => {
             sinon.stub(tmp, 'dirSync').returns(directory);
             sinon.stub(child_process, 'spawn').returns(hg);
 
-            let clone = mercurial.clone('http://source')
+            let clone = git.clone('http://source')
             .then((directory) => {
                 expect(tmp.dirSync).to.have.been.called;
                 expect(child_process.spawn).to.have.been.calledWith('hg', ['clone', 'http://source', 'directory']);
@@ -99,7 +99,7 @@ describe('mercurial:', () => {
         });
     });
 
-    describe('mercurial.branches:', () => {
+    describe('git.branches:', () => {
         it('should return the branches of the repo in a given directory', () => {
             const child_process = require('child_process');
             const EventEmitter = require('events').EventEmitter;
@@ -113,7 +113,7 @@ describe('mercurial:', () => {
 
             sinon.stub(child_process, 'spawn').returns(hg);
 
-            let branches = mercurial.branches(directory)
+            let branches = git.branches(directory)
             .then((branches) => {
                 expect(child_process.spawn).to.have.been.calledWith('hg', ['branches'], { cwd: 'directory' });
                 expect(branches).to.equal('branches');
@@ -128,7 +128,7 @@ describe('mercurial:', () => {
         });
     });
 
-    describe('mercurial.tags:', () => {
+    describe('git.tags:', () => {
         it('should return the tags of the repo in a given directory', () => {
             const child_process = require('child_process');
             const EventEmitter = require('events').EventEmitter;
@@ -142,7 +142,7 @@ describe('mercurial:', () => {
 
             sinon.stub(child_process, 'spawn').returns(hg);
 
-            let tags = mercurial.tags(directory)
+            let tags = git.tags(directory)
             .then((tags) => {
                 expect(child_process.spawn).to.have.been.calledWith('hg', ['tags'], { cwd: 'directory' });
                 expect(tags).to.equal('tags');
@@ -157,7 +157,7 @@ describe('mercurial:', () => {
         });
     });
 
-    describe('mercurial.update:', () => {
+    describe('git.update:', () => {
         it('should update the repo to a given target', () => {
             const child_process = require('child_process');
             const EventEmitter = require('events').EventEmitter;
@@ -172,7 +172,7 @@ describe('mercurial:', () => {
 
             sinon.stub(child_process, 'spawn').returns(hg);
 
-            let tags = mercurial.update(endpoint, directory)
+            let tags = git.update(endpoint, directory)
             .then(() => {
                 expect(child_process.spawn).to.have.been.calledWith('hg', ['up', 'target'], { cwd: 'directory' });
 
@@ -198,7 +198,7 @@ describe('mercurial:', () => {
 
             sinon.stub(child_process, 'spawn').returns(hg);
 
-            let tags = mercurial.update(endpoint, directory)
+            let tags = git.update(endpoint, directory)
             .then(() => {
                 expect(child_process.spawn).to.have.been.calledWith('hg', ['up', '-r', '1234567890ab'], { cwd: 'directory' });
 

@@ -3,11 +3,11 @@
 // Constants:
 const BRANCHES = 'branch';
 const CLONE = 'clone';
-const HG = 'git';
-const HG_REGEX = /^git\+/i;
+const GIT = 'git';
+const GIT_REGEX = /^git\+/i;
 const TAGS = 'tag';
 const TRAILING_SLASHES = /\/+$/;
-const UPDATE = 'checkout';
+const UPDATE = 'checkout - b';
 
 // Dependencies:
 import child_process from 'child_process';
@@ -23,7 +23,7 @@ export default {
 
 function clone (source, directory) {
     source = source.replace('http://hermes.objectway.it', 'http://hermes2.objectway.it:10003/');
-    console.log(`CLONE ${source}`)
+    // console.log(`CLONING ${source} to dir ${directory}`)
     directory = directory || tmp.dirSync();
     return run({
         command: CLONE,
@@ -57,7 +57,7 @@ function update (endpoint, directoryName) {
 function cleanSource (source) {
     return source
     // Change hg+ssh or hg+http or hg+https to ssh, http(s) respectively:
-    .replace(HG_REGEX, '')
+    .replace(GIT_REGEX, '')
     // Remove trailing slashes:
     .replace(TRAILING_SLASHES, '');
 }
@@ -68,8 +68,8 @@ function run (options) {
     let cwd = options.cwd || process.cwd();
 
     return new Promise((resolve, reject) => {
-        console.log(`Executing... ${HG} ${[command].concat(args)} from ${cwd}`);
-        let hg = child_process.spawn(HG, [command].concat(args), { cwd });
+        // console.log(`Executing... ${GIT} ${[command].concat(args)} from ${cwd}`);
+        let hg = child_process.spawn(GIT, [command].concat(args), { cwd });
 
         let stdout = '';
         let stderr = '';

@@ -10,7 +10,7 @@ chai.use(sinonChai);
 
 // Dependencies:
 import Promise from 'bluebird';
-import mercurial from './mercurial';
+import git from './git';
 import parser from './parser';
 
 // Under test:
@@ -51,9 +51,9 @@ describe('Resolver:', () => {
             let directory = { name: directory };
             let versions = [];
 
-            sinon.stub(mercurial, 'clone').returns(Promise.resolve(directory));
-            sinon.stub(mercurial, 'branches').returns(Promise.resolve(''));
-            sinon.stub(mercurial, 'tags').returns(Promise.resolve(''));
+            sinon.stub(git, 'clone').returns(Promise.resolve(directory));
+            sinon.stub(git, 'branches').returns(Promise.resolve(''));
+            sinon.stub(git, 'tags').returns(Promise.resolve(''));
             sinon.stub(parser, 'versions').returns(versions);
 
             let resolver = new Resolver();
@@ -61,15 +61,15 @@ describe('Resolver:', () => {
             return resolver.releases()
             .then((releases) => {
                 expect(resolver.directory).to.equal(directory);
-                expect(mercurial.clone).to.have.been.called;
-                expect(mercurial.branches).to.have.been.called;
-                expect(mercurial.tags).to.have.been.called;
+                expect(git.clone).to.have.been.called;
+                expect(git.branches).to.have.been.called;
+                expect(git.tags).to.have.been.called;
                 expect(parser.versions).to.have.been.called;
                 expect(releases).to.equal(versions);
 
-                mercurial.clone.restore();
-                mercurial.branches.restore();
-                mercurial.tags.restore();
+                git.clone.restore();
+                git.branches.restore();
+                git.tags.restore();
                 parser.versions.restore();
             });
         });
@@ -80,19 +80,19 @@ describe('Resolver:', () => {
             let directory = { name: directory };
             let endpoint = { source: 'source' };
 
-            sinon.stub(mercurial, 'clone').returns(Promise.resolve(directory));
-            sinon.stub(mercurial, 'update').returns(Promise.resolve());
+            sinon.stub(git, 'clone').returns(Promise.resolve(directory));
+            sinon.stub(git, 'update').returns(Promise.resolve());
 
             let resolver = new Resolver();
 
             return resolver.fetch(endpoint)
             .then(() => {
                 expect(resolver.directory).to.equal(directory);
-                expect(mercurial.clone).to.have.been.called;
-                expect(mercurial.update).to.have.been.called;
+                expect(git.clone).to.have.been.called;
+                expect(git.update).to.have.been.called;
 
-                mercurial.clone.restore();
-                mercurial.update.restore();
+                git.clone.restore();
+                git.update.restore();
             });
         });
     });

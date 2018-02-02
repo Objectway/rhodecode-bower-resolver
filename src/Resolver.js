@@ -1,7 +1,7 @@
 'use strict';
 
 // Dependencies:
-import mercurial from './mercurial';
+import git from './git';
 // --- useless after rework
 import spawnCommand from 'spawn-command';
 import readChunk from 'read-chunk';
@@ -81,23 +81,23 @@ export default class Resolver {
 
         this.directory = tmp.dirSync();
 
-        //console.log(`Starting RELEASES method for SOURCE -> ${source} ...`);
-        //console.log(`Starting RELEASES method for DIRECTORY -> ${this.directory.name} ...`);
-        return mercurial.clone(source, this.directory)
+        // console.log(`Starting RELEASES method for SOURCE -> ${source} ...`);
+        // console.log(`Starting RELEASES method for DIRECTORY -> ${this.directory.name} ...`);
+        return git.clone(source, this.directory)
             .catch( (e) => {
-                console.log(`Custom error ${e}`);
+                this.bower.logger.error(`RELEASE METHOD: Clone error --> ${e}`);
             })
             .then((directoryLocal) => {
                 //console.log(`RELEASES method :: resolved promise for DIR FROM PROMISE -> ${directoryLocal.name} ...`);
-                console.log(`RELEASES method :: resolved promise for DIR ON CLASS -> ${this.directory.name} ...`);
+                // this.bower.logger.debug(`RELEASES method :: resolved promise for DIR ON CLASS -> ${this.directory.name} ...`);
                 //this.directory = directoryLocal;
 
-                let branches = mercurial.branches(this.directory.name).catch( (e) => {
-                    console.log(`Custom error su BRANCHES ${e}`);
+                let branches = git.branches(this.directory.name).catch( (e) => {
+                    this.bower.logger.error(`Custom error su BRANCHES ${e}`);
                 });
 
-                let tags = mercurial.tags(this.directory.name).catch( (e) => {
-                    console.log(`Custom error su TAGS ${e}`);
+                let tags = git.tags(this.directory.name).catch( (e) => {
+                    this.bower.logger.error(`Custom error su TAGS ${e}`);
                 });
 
                 return Promise.all([branches, tags]);
@@ -109,21 +109,21 @@ export default class Resolver {
     // You can use npm's "tmp" package to tmp directories
     // See the "Resolver API" section for details on this method
     fetch (endpoint) {
-        //console.log(`Starting FETCH method for endpoint ${endpoint.source}`);
-        return mercurial.clone(endpoint.source, this.directory)
+        // console.log(`Starting FETCH method for endpoint ${endpoint.source}`);
+        return git.clone(endpoint.source, this.directory)
             .catch( (e) => {
-                console.log(`FETCH METHOD: Clone error  ${e}`);
+                this.bower.logger.error(`FETCH METHOD: Clone error --> ${e}`);
             })
-            .then((directory) => {
-                //this.directory = directory;
-
-                return mercurial.update(endpoint, this.directory.name);
-            })
-            .catch( (e) => {
-                console.log(`FETCH METHOD: Update error  ${e}`);
-            })
+            // .then((directory) => {
+            //     //this.directory = directory;
+            //     console.log('before update --> this.directory', this.directory);
+            //     return git.update(endpoint, this.directory.name);
+            // })
+            // .catch( (e) => {
+            //     console.log(`FETCH METHOD: Update error  ${e}`);
+            // })
             .then(() => {
-                console.log(`FETCH METHOD: last promise resolution`);
+                // console.log(`FETCH METHOD: clone promise resolution`);
                 // Return the temp path in order to allow bower to resolve the installation
                 return {
                     tempPath: this.directory.name
@@ -132,8 +132,8 @@ export default class Resolver {
     }
 
     error (type) {
-        console.log(`Error --> ${type}`);
-        return (e) => this.bower.logger.error(type, e.toString());
+        this.bower.logger.error(`Error --> ${type}`);
+        return (e) => console.log(type, e.toString());
     }
 
 }
